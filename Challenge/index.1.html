@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Parcel Sandbox</title>
+    <meta charset="UTF-8" />
+    <link
+      rel="stylesheet"
+      href="https://unpkg.com/@picocss/pico@1.*/css/pico.min.css" />
+    <style>
+      body {
+        padding: 20px;
+      }
+      h1 {
+        text-align: center;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="root"></div>
+  </body>
+  <script src="https://unpkg.com/react@17.0.2/umd/react.production.min.js"></script>
+  <script src="https://unpkg.com/react-dom@17.0.2/umd/react-dom.production.min.js"></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  <script type="text/babel">
+    const root = document.getElementById('root');
+    function App() {
+      const [a, setA] = React.useState();
+      const [b, setB] = React.useState();
+      const [operation, setOperation] = React.useState();
+      const [result, setResult] = React.useState();
+      const onChange = (event) => {
+        const {
+          target: { id, value },
+        } = event;
+        console.log(id, value);
+        if (id === 'a') {
+          setA(value);
+        } else if (id === 'b') {
+          setB(value);
+        } else if (id === 'operation') {
+          setOperation(value);
+        }
+      };
+      const onCalculator = () => {
+        const aNum = parseInt(a);
+        const bNum = parseInt(b);
+        if (operation === '+') {
+          setResult(aNum + bNum);
+        }
+        if (operation === '-') setResult(aNum - bNum);
+        if (operation === '/') setResult(aNum / bNum);
+        if (operation === '*') setResult(aNum * bNum);
+      };
+      return (
+        <div className='container'>
+          <h1>Calculator</h1>
+          <input type='number' value={a} onChange={onChange} id='a' />
+          <input type='number' value={b} onChange={onChange} id='b' />
+
+          <select name='' id='operation' onChange={onChange} value={operation}>
+            <option>Select operation</option>
+            <option value='+'>+</option>
+            <option value='-'>-</option>
+            <option value='/'>/</option>
+            <option value='*'>*</option>
+          </select>
+          <button onClick={onCalculator}>Calculate</button>
+          {result !== undefined ? <h1> The result is : {result} </h1> : ''}
+        </div>
+      );
+    }
+    ReactDOM.render(<App />, root);
+  </script>
+</html>
